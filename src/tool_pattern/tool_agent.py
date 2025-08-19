@@ -6,6 +6,7 @@ import json
 from typing import Dict, List
 from dotenv import load_dotenv
 from .tools import get_opening_price, get_yesterday_high_low, get_full_stock_info
+from .prompts import ToolAgentPrompts, ToolAgentTemplates
 
 load_dotenv()
 
@@ -15,6 +16,8 @@ class ToolAgent:
     def __init__(self, api_key: str = None, model: str = "claude-3-5-sonnet-20241022"):
         self.client = Anthropic(api_key=api_key or os.getenv("ANTHROPIC_API_KEY"))
         self.model = model
+        self.prompts = ToolAgentPrompts()
+        self.templates = ToolAgentTemplates()
         
         self.tools = [
             {
@@ -77,7 +80,7 @@ class ToolAgent:
         response = self.client.messages.create(
             model=self.model,
             max_tokens=1000,
-            system="You are a finance assistant. You have access to stock market tools to get real-time data using Yahoo Finance. Use the tools when users ask about specific stock information. Always use the most appropriate tool for the user's question.",
+            system=self.prompts.INITIAL_SYSTEM,
             messages=messages,
             tools=self.tools
         )
@@ -94,7 +97,7 @@ class ToolAgent:
             final_response = self.client.messages.create(
                 model=self.model,
                 max_tokens=1000,
-                system="You are a finance assistant. Present the tool results in a clear, user-friendly way. Format numbers nicely and provide helpful context.",
+                system=self.prompts.RESPONSE_SYSTEM,
                 messages=messages,
                 tools=self.tools
             )
@@ -123,3 +126,22 @@ class ToolAgent:
                 "tool_use_id": tool_use_block.id,
                 "content": f"Error: Unknown tool {tool_name}"
             }
+
+if __name__ == "__main__":
+    agent = ToolAgent()
+    
+    queries = [
+        "What is the opening price of Apple stock?",
+        "Show me yesterday's high and low for Microsoft",
+        "Give me full information about Tesla stock"
+    ]
+    
+    for query in queries:
+        print(f"\nQuery: {query}")
+        print("-" * 40)
+        try:
+            result = agent.run(query)
+            print(result)
+        except Exception as e:
+            print(f"Error: {e}")
+        print()

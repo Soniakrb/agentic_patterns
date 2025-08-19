@@ -58,7 +58,7 @@ class StockDataProvider:
             return {"error": f"Failed to fetch data for {symbol}: {str(e)}"}
 
 
-# Individual tool functions for the AI agent
+
 def get_opening_price(symbol: str) -> str:
     """
     Tool: Get the opening price of a stock for today
