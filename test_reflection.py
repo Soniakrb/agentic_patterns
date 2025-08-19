@@ -3,7 +3,7 @@
 Testing Reflection Pattern Agent
 """
 
-from src.reflection_pattern.reflection_agent import ReflectionAgent
+from src.reflection_pattern import ReflectionAgent
 
 def main():
     agent = ReflectionAgent()
@@ -17,17 +17,17 @@ def main():
         result = agent.run(task)
         
         # Display results
-        print(f"\n📝 INITIAL CODE:")
+        print(f"\nINITIAL CODE:")
         print(result['initial_code'])
         
-        print(f"\n🔍 CRITIQUE:")
+        print(f"\nCRITIQUE:")
         print(result['critique'])
         
-        print(f"\n✨ REFINED CODE:")
+        print(f"\nREFINED CODE:")
         print(result['refined_code'])
         
     except Exception as e:
-        print(f"❌ Error: {e}")
+        print(f"Error: {e}")
 
 if __name__ == "__main__":
     main()

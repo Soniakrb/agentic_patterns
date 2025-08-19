@@ -52,21 +52,21 @@ class ReflectionAgent:
     
     def run(self, task: str) -> dict:
         """Run the complete reflection cycle and return all outputs"""
-        print(f"🔄 Starting reflection cycle for: {task}")
+        print(f"Starting reflection cycle for: {task}")
         
         # Generate initial code
-        print("📝 Generating initial code...")
+        print("Generating initial code...")
         initial_code = self.generate(task)
         
         # Reflect on the code
-        print("🔍 Reflecting on code...")
+        print("Reflecting on code...")
         critique = self.reflect(task, initial_code)
         
         # Refine based on reflection
-        print("✨ Refining code...")
+        print("Refining code...")
         refined_code = self.refine(task, initial_code, critique)
         
-        print("✅ Reflection cycle complete!")
+        print("Reflection cycle complete!")
         
         return {
             "task": task,
