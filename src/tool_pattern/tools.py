@@ -103,7 +103,7 @@ def get_yesterday_high_low(symbol: str) -> str:
 
 def get_full_stock_info(symbol: str) -> str:
     """
-    Tool: Get comprehensive stock information
+    Tool: Get stock information
     
     Args:
         symbol: Stock ticker symbol (e.g., AAPL, GOOGL)
